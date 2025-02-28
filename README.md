@@ -1,74 +1,138 @@
 # Programming Practice Generator - Backend
 
-This is the backend server for the Programming Practice Generator tool. It uses the DeepSeek Coder model through Ollama to generate programming problems based on user input.
+This is the backend server for the Programming Practice Generator tool. It uses OpenAI's GPT models to generate structured programming problems based on user input, with support for multiple difficulty levels and programming languages.
+
+## Features
+
+- Generate programming problems with varying difficulty levels (Beginner, Intermediate, Advanced)
+- Structured learning paths with clear progression
+- Support for multiple programming languages
+- Detailed problem descriptions with examples and prerequisites
+- Real-world context and practical applications
 
 ## Prerequisites
 
-1. Install Ollama:
+- Node.js (v14 or higher)
+- npm (Node Package Manager)
+- OpenAI API key
+
+## Installation
+
+1. Clone the repository:
 ```bash
-brew install ollama
+git clone <repository-url>
+cd hands-on-programming-tool-backend
 ```
 
-2. Start Ollama service:
-```bash
-brew services start ollama
-```
-
-3. Pull the DeepSeek model:
-```bash
-ollama pull deepseek-coder
-```
-
-## Setup
-
-1. Install dependencies:
+2. Install dependencies:
 ```bash
 npm install
 ```
 
-2. Start the server:
+3. Create a `.env` file in the root directory:
+```bash
+OPENAI_API_KEY=your_api_key_here
+```
+
+## Configuration
+
+The server uses the following environment variables:
+- `OPENAI_API_KEY`: Your OpenAI API key
+- `PORT`: Server port (default: 3001)
+
+## API Endpoints
+
+### Generate Problems
+- **URL**: `/generate-problems`
+- **Method**: `POST`
+- **Body**:
+```json
+{
+  "topic": "string",
+  "language": "string",
+  "difficulty": "beginner|intermediate|advanced"
+}
+```
+- **Response**:
+```json
+{
+  "topic": "string",
+  "language": "string",
+  "learningPath": {
+    "description": "string",
+    "problems": [
+      {
+        "level": "number",
+        "title": "string",
+        "concepts": ["string"],
+        "description": "string",
+        "examples": [
+          {
+            "input": "string",
+            "output": "string",
+            "explanation": "string"
+          }
+        ],
+        "prerequisites": ["string"]
+      }
+    ]
+  }
+}
+```
+
+## Difficulty Levels
+
+### Beginner
+- Basic syntax and operations
+- Standard library functions
+- Simple, everyday examples
+- Low complexity problems
+
+### Intermediate
+- Data structures and algorithms
+- Error handling
+- Best practices
+- Practical applications
+
+### Advanced
+- Advanced algorithms
+- Design patterns
+- Optimization techniques
+- Industry-level problems
+
+## Running the Server
+
+1. Start the server:
 ```bash
 node index.js
 ```
 
-The server will start on port 3001.
+2. The server will start on port 3001 (default)
 
-## API Endpoints
+## Error Handling
 
-### POST /generate-problems
-Generates programming problems based on the provided topic, language, and difficulty level.
+The server includes comprehensive error handling for:
+- Invalid requests
+- API timeouts
+- JSON parsing errors
+- Connection issues
 
-Request body:
-```json
-{
-  "topic": "Binary Trees",
-  "language": "Python",
-  "difficulty": "beginner"
-}
+## Development
+
+To run in development mode with auto-reload:
+```bash
+npm install -g nodemon
+nodemon index.js
 ```
 
-Response:
-```json
-{
-  "problems": [
-    {
-      "statement": "Problem statement here",
-      "example": "Example input/output here",
-      "hints": "Hints for solving here",
-      "objectives": "Learning objectives here"
-    }
-  ]
-}
-```
+## Contributing
 
-## Environment Variables
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a new Pull Request
 
-- `PORT`: Port number for the server (default: 3001)
+## License
 
-## Benefits of Using DeepSeek
-
-- Free and open-source
-- Specifically optimized for coding tasks
-- Fast local execution
-- No API costs
-- Complete privacy (all processing done locally)
+This project is licensed under the MIT License - see the LICENSE file for details.

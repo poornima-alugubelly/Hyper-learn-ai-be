@@ -1,6 +1,23 @@
 # Programming Practice Generator - Backend
 
-This is the backend server for the Programming Practice Generator tool. It uses AI to generate programming problems based on user input.
+This is the backend server for the Programming Practice Generator tool. It uses the DeepSeek Coder model through Ollama to generate programming problems based on user input.
+
+## Prerequisites
+
+1. Install Ollama:
+```bash
+brew install ollama
+```
+
+2. Start Ollama service:
+```bash
+brew services start ollama
+```
+
+3. Pull the DeepSeek model:
+```bash
+ollama pull deepseek-coder
+```
 
 ## Setup
 
@@ -9,12 +26,7 @@ This is the backend server for the Programming Practice Generator tool. It uses 
 npm install
 ```
 
-2. Create a `.env` file in the root directory with your OpenAI API key:
-```
-OPENAI_API_KEY=your_api_key_here
-```
-
-3. Start the server:
+2. Start the server:
 ```bash
 node index.js
 ```
@@ -51,8 +63,12 @@ Response:
 
 ## Environment Variables
 
-- `OPENAI_API_KEY`: Your OpenAI API key (required)
 - `PORT`: Port number for the server (default: 3001)
 
-## Security Note
-Make sure to never commit your `.env` file or expose your OpenAI API key. The `.env` file is included in `.gitignore` to prevent accidental commits.
+## Benefits of Using DeepSeek
+
+- Free and open-source
+- Specifically optimized for coding tasks
+- Fast local execution
+- No API costs
+- Complete privacy (all processing done locally)

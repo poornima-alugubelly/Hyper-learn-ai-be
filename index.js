@@ -1,15 +1,12 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const OpenAI = require('openai');
-require('dotenv').config();
+const Ollama = require('ollama');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY
-});
+const ollama = new Ollama();
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -30,15 +27,20 @@ async function generateProblems(topic, language, difficulty = 'beginner') {
         "hints": "Hints for solving here",
         "objectives": "Learning objectives here"
       }
-    ]`;
+    ]
+    IMPORTANT: Ensure the response is valid JSON that can be parsed.`;
 
     try {
-        const completion = await openai.chat.completions.create({
-            messages: [{ role: "user", content: prompt }],
-            model: "gpt-3.5-turbo",
+        const response = await ollama.generate({
+            model: 'deepseek-coder',
+            prompt: prompt,
+            stream: false
         });
 
-        return completion.choices[0].message.content;
+
+        const jsonStr = response.response.trim();
+
+        return JSON.parse(jsonStr);
     } catch (error) {
         console.error('Error generating problems:', error);
         throw error;
